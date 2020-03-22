@@ -1,4 +1,6 @@
-CREATE TABLE public.doctors
+CREATE USER setmd;
+CREATE SCHEMA setmd;
+CREATE TABLE setmd.doctors
 (
     id serial,
     user_id integer,
@@ -10,10 +12,10 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.doctors
-    OWNER to postgres;
+ALTER TABLE setmd.doctors
+    OWNER to setmd;
     
-CREATE TABLE public.patients
+CREATE TABLE setmd.patients
 (
     id serial,
     user_id integer,
@@ -27,26 +29,26 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.patients
-    OWNER to postgres;
+ALTER TABLE setmd.patients
+    OWNER to setmd;
     
-CREATE TABLE public.productioncompanies
+CREATE TABLE setmd.productioncompanies
 (
     id serial,
     user_id integer,
     expiration_date date,
     w9_form bytea,
-    office_location character varying(64) COLLATE pg_catalog."default"
+    office_location character varying(255) COLLATE pg_catalog."default"
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.productioncompanies
-    OWNER to postgres;
+ALTER TABLE setmd.productioncompanies
+    OWNER to setmd;
     
-CREATE TABLE public.productioncoordinators
+CREATE TABLE setmd.productioncoordinators
 (
     id serial,
     user_id integer,
@@ -57,10 +59,10 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.productioncoordinators
-    OWNER to postgres;
+ALTER TABLE setmd.productioncoordinators
+    OWNER to setmd;
     
-CREATE TABLE public.services
+CREATE TABLE setmd.services
 (
     id serial,
     name character varying(64) COLLATE pg_catalog."default",
@@ -74,10 +76,10 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.services
-    OWNER to postgres;
+ALTER TABLE setmd.services
+    OWNER to setmd;
     
-CREATE TABLE public.setmedics
+CREATE TABLE setmd.setmedics
 (
     id serial,
     user_id integer,
@@ -88,10 +90,10 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.setmedics
-    OWNER to postgres;
+ALTER TABLE setmd.setmedics
+    OWNER to setmd;
     
-CREATE TABLE public.users
+CREATE TABLE setmd.users
 (
     id serial,
     name character varying(64) COLLATE pg_catalog."default",
@@ -105,5 +107,5 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.users
-    OWNER to postgres;
+ALTER TABLE setmd.users
+    OWNER to setmd;
