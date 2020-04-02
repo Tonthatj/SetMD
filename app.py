@@ -5,8 +5,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  passwd="Boss1234",
-  database="mydatabase"
+  passwd="#$#$#$*&",
+  database="setmd-db"
 )
 
 mycursor = mydb.cursor()
