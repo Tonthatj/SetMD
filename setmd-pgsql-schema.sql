@@ -1,5 +1,5 @@
-CREATE USER setmd;
-CREATE SCHEMA setmd;
+--CREATE USER setmd;
+--CREATE SCHEMA setmd;
 CREATE TABLE setmd.doctors
 (
     id serial,
@@ -99,7 +99,7 @@ CREATE TABLE setmd.users
     name character varying(64) COLLATE pg_catalog."default",
     email character varying(64) COLLATE pg_catalog."default",
     phone integer,
-    type character varying(64) COLLATE pg_catalog."default",
+    role character varying(64) COLLATE pg_catalog."default",
     disabled boolean
 )
 WITH (
