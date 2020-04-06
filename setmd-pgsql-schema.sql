@@ -1,4 +1,4 @@
-CREATE USER setmd;
+#CREATE USER setmd;
 CREATE SCHEMA setmd;
 CREATE TABLE setmd.doctors
 (
