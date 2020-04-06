@@ -99,7 +99,7 @@ CREATE TABLE setmd.users
     name character varying(64) COLLATE pg_catalog."default",
     email character varying(64) COLLATE pg_catalog."default",
     phone integer,
-    type character varying(64) COLLATE pg_catalog."default",
+    role character varying(64) COLLATE pg_catalog."default",
     disabled boolean
 )
 WITH (
