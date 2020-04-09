@@ -66,8 +66,8 @@ CREATE TABLE setmd.services
 (
     id serial,
     name character varying(64) COLLATE pg_catalog."default",
-    price integer,
-    duration integer,
+    price bigint,
+    duration bigint,
     travel boolean,
     doctor_id integer
 )
@@ -98,7 +98,7 @@ CREATE TABLE setmd.users
     id serial,
     name character varying(64) COLLATE pg_catalog."default",
     email character varying(64) COLLATE pg_catalog."default",
-    phone integer,
+    phone bigint,
     role character varying(64) COLLATE pg_catalog."default",
     disabled boolean
 )
