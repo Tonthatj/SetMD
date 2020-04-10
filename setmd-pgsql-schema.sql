@@ -1,5 +1,6 @@
 --CREATE USER setmd;
 --CREATE SCHEMA setmd;
+ALTER SCHEMA setmd OWNER TO setmd;
 CREATE TABLE setmd.doctors
 (
     id serial,
