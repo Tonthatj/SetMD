@@ -1,94 +1,69 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Apr  5 14:08:10 2020
-
-@author: Jonathan
-"""
-
-
-from os import environ
-from flask import Flask, jsonify, request
-import json
-from psycopg2 import connect, sql
-
+from flask import Flask,request
+from psycopg2 import connect
 
 try:
-    
-    
-    
-    conn = connect (
-        dbname = 'setmd',
-        user = "setmd",
-        host = "setmd-db.ceij67ce3ano.us-east-2.rds.amazonaws.com",
-        password = "P455w0rd"
-    )
-
-    cur = conn.cursor()
-except Exception as e:
-    print("I am unable to connect to the database", e)
-
-app = Flask(__name__, template_folder='templates')
-
-
-@app.route('/create/user', methods=['POST'])
-def create_user():    
-  dictionary = dict(json.loads(request.data))
-  
-  
-  name = dictionary["name"]
-  email = dictionary["email"]
-  phone = dictionary["phone"]
-  role = dictionary["role"]
-  disabled = dictionary["disabled"]
-  
-  
-  if role[-1] == 'y':
-      role = role.replace("y","ie")
-  role = role +'s'
-    
-  
-  query = "INSERT INTO setmd.users (name, email, phone, type, disabled) VALUES (%s, %s, %s, %s, %s)"
-  vals = (name,email,phone,role,disabled)
-  cur.execute(query, vals)
-  conn.commit()
-
-  query = ("SELECT id FROM setmd.users WHERE name = %s")
-  cur.execute(query, name)
-  conn.commit()
-  result = cur.fetchall()
-  
-  uid = result[0][0]
-  role = result[0][1]
-  print(uid)
-  
-  
-  
-  
-  
-def create_user_test():    
+  conn = connect(
+    dbname = 'setmd',
+    user = 'setmd',
+    host = 'setmd-db.ceij67ce3ano.us-east-2.rds.amazonaws.com',
+    password = 'P455w0rd'
+  )
   cur = conn.cursor()
-  
-  '''
-  query = "INSERT INTO setmd.users (name, email, phone, role, disabled) VALUES ('Jon Tonthat', 'jwtonthat@gmail.com', 9783176486, 'GOD', false)"
-  cur.execute(query)
+except Exception as e:
+  print('I am unable to connect to the database',e)
+
+app = Flask(__name__)
+
+@app.route('/create/user',methods=['POST'])
+def create_user():
+  dictionary = request.form
+
+  name = dictionary['name']
+  email = dictionary['email']
+  phone = dictionary['phone']
+  role = dictionary['role']
+  disabled = dictionary['disabled']
+
+  role = role + 's'
+
+  query = 'INSERT INTO setmd.users (name,email,phone,role,disabled) VALUES (%s,%s,%s,%s,%s) RETURNING id'
+  vals = (name,email,phone,role,disabled)
+  cur.execute(query,vals)
   conn.commit()
-  '''
-  
-  query = ("SELECT id, role FROM setmd.users WHERE name = 'Jon Tonthat'")
-  cur.execute(query)
-  result = cur.fetchall()
-  
-  
-  uid = result[0][0]
-  role = result[0][1]
-  print(uid)
+  uid = cur.fetchone()[0]
 
-  types_of_roles = ["doctors", "patients", "productioncompanies", "productioncoordinators", "users", "setmedics"]
-  if role in types_of_roles:
-      print("yay")
+  roles = ['doctors','patients','productioncoordinators']
+  if role in roles:
+    if role == 'doctors':
+      office_location = dictionary['office_location']
+      query = 'INSERT INTO setmd.doctors (user_id,office_location,is_god) VALUES (%s,%s,%s)'
+      vals = (uid,office_location,False)
+      cur.execute(query,vals)
+      conn.commit()
+    elif role == 'patients':
+      consent_form = dictionary['consent_form']
+      privacy_agreement = dictionary['privacy_agreement']
+      emergency_contact_user_id_1 = dictionary['emergency_contact_user_id_1']
+      emergency_contact_user_id_2 = dictionary['emergency_contact_user_id_2']
+      query = 'INSERT INTO setmd.patients (user_id,consent_form,privacy_agreement,emergency_contact_user_id_1,emergency_contact_user_id_2) VALUES (%s,%s,%s,%s,%s)'
+      vals = (uid,consent_form,privacy_agreement,emergency_contact_user_id_1,emergency_contact_user_id_2)
+      cur.execute(query,vals)
+      conn.commit()
+    elif role == 'productioncoordinators':
+      expiration_date = dictionary['expiration_date']
+      w9_form = dictionary['w9_form']
+      office_location = dictionary['office_location']
+      query = 'INSERT INTO setmd.productioncompanies (user_id,expiration_date,w9_form,office_location) VALUES (%s,%s,%s,%s) RETURNING id'
+      vals = (uid,expiration_date,w9_form,office_location)
+      cur.execute(query,vals)
+      conn.commit()
+      pcid = cur.fetchone()[0]
+      query = 'INSERT INTO setmd.productioncoordinators (user_id,production_company_id) VALUES (%s,%s)'
+      vals = (uid,pcid)
+      cur.execute(query,vals)
+      conn.commit()
 
-  
+  return name + ' was created with the role ' + role
+
 if __name__ == '__main__':
-    #create_user_test()
-    app.run(host='0.0.0.0', port=5001, debug=False, threaded=False)
-    
+    app.run(host='0.0.0.0')

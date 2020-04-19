@@ -98,7 +98,7 @@ CREATE TABLE setmd.users
 (
     id serial,
     name character varying(64) COLLATE pg_catalog."default",
-    email character varying(64) COLLATE pg_catalog."default",
+    email character varying(64) UNIQUE COLLATE pg_catalog."default",
     phone bigint,
     role character varying(64) COLLATE pg_catalog."default",
     disabled boolean
