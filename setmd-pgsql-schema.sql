@@ -20,10 +20,14 @@ CREATE TABLE setmd.patients
 (
     id serial,
     user_id integer,
-    consent_form bytea,
-    privacy_agreement bytea,
+    date_of_birth date,
     emergency_contact_user_id_1 integer,
-    emergency_contact_user_id_2 integer
+    emergency_contact_relation_1 character varying(20) COLLATE pg_catalog."default",
+    emergency_contact_user_id_2 integer,
+    emergency_contact_relation_2 character varying(20) COLLATE pg_catalog."default",
+    home_address character varying(255) COLLATE pg_catalog."default",
+    consent_form bytea,
+    privacy_agreement bytea
 )
 WITH (
     OIDS = FALSE
