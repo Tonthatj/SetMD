@@ -49,8 +49,8 @@ def create_user():
       home_address = dictionary['home_address']
       consent_form = dictionary['consent_form']
       privacy_agreement = dictionary['privacy_agreement']
-      query = 'INSERT INTO setmd.patients (user_id,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,consent_form,privacy_agreement) VALUES (%s,%s,%s,%s,%s)'
-      vals = (uid,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,consent_form,privacy_agreement)
+      query = 'INSERT INTO setmd.patients (user_id,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,home_address,consent_form,privacy_agreement) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)'
+      vals = (uid,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,home_address,consent_form,privacy_agreement)
       cur.execute(query,vals)
       conn.commit()
     elif role == 'productioncoordinators':
