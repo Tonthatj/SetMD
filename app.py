@@ -41,12 +41,16 @@ def create_user():
       cur.execute(query,vals)
       conn.commit()
     elif role == 'patients':
+      date_of_birth = dictionary['date_of_birth']
+      emergency_contact_user_id_1 = dictionary['emergency_contact_user_id_1']
+      emergency_contact_relation_1 = dictionary['emergency_contact_relation_1']
+      emergency_contact_user_id_2 = dictionary['emergency_contact_user_id_2']
+      emergency_contact_relation_2 = dictionary['emergency_contact_relation_2']
+      home_address = dictionary['home_address']
       consent_form = dictionary['consent_form']
       privacy_agreement = dictionary['privacy_agreement']
-      emergency_contact_user_id_1 = dictionary['emergency_contact_user_id_1']
-      emergency_contact_user_id_2 = dictionary['emergency_contact_user_id_2']
-      query = 'INSERT INTO setmd.patients (user_id,consent_form,privacy_agreement,emergency_contact_user_id_1,emergency_contact_user_id_2) VALUES (%s,%s,%s,%s,%s)'
-      vals = (uid,consent_form,privacy_agreement,emergency_contact_user_id_1,emergency_contact_user_id_2)
+      query = 'INSERT INTO setmd.patients (user_id,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,consent_form,privacy_agreement) VALUES (%s,%s,%s,%s,%s)'
+      vals = (uid,date_of_birth,emergency_contact_user_id_1,emergency_contact_relation_1,emergency_contact_user_id_2,emergency_contact_relation_2,consent_form,privacy_agreement)
       cur.execute(query,vals)
       conn.commit()
     elif role == 'productioncoordinators':
