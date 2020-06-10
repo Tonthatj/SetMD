@@ -81,7 +81,7 @@ def create_user():
 
 
 @app.route('/update/user',methods=['POST'])
-def create_user():
+def update_user():
   dictionary = request.form
 
   name = dictionary['name']
